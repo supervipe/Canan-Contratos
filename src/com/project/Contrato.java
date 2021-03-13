@@ -29,4 +29,14 @@ public class Contrato {
     public int getFornecedor() {
         return fornecedor;
     }
+
+    @Override
+    public String toString() {
+        return "Contrato {\n" +
+                "    fornecedor = " + fornecedor +
+                "\n    mesInicio = " + mesInicio +
+                "\n    mesFinal = " + mesFinal +
+                "\n    valor = " + valor +
+                "\n}";
+    }
 }

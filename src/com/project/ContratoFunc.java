@@ -8,64 +8,100 @@ public class ContratoFunc {
     private int count;
     private ArrayList<ArrayList<Contrato>> contratosMatriz;
 
-    public Contrato menorValorByFornecedor(int fornecedor) {
-        ArrayList<Contrato> contratosFornecedores = contratosMatriz.get(fornecedor - 1);
+    public ContratoFunc(int meses, int count, ArrayList<ArrayList<Contrato>> contratosMatriz) {
+        this.meses = meses;
+        this.count = count;
+        this.contratosMatriz = contratosMatriz;
+    }
 
-        float menorValor = contratosFornecedores.get(0).getValor();
-        int indexMenor = 0;
+    public Contrato menorFornecedor(int index) {
 
-        for (int i = 0; i < contratosFornecedores.size(); i++) {
-            if (menorValor > contratosFornecedores.get(i).getValor()) {
-                menorValor = contratosFornecedores.get(i).getValor();
-                indexMenor = i;
+        int fornecedor = 0;
+        ArrayList<Contrato> contratos = contratosMatriz.get(index - 1);
+        float valor = contratos.get(0).getValor();
+
+        for (int i = 0; i < contratos.size(); i++) {
+            if (valor > contratos.get(i).getValor()) {
+                valor = contratos.get(i).getValor();
+                fornecedor = i;
             }
         }
-
-        return contratosFornecedores.get(indexMenor);
+        return contratos.get(fornecedor);
     }
 
     public Contrato menorValor() {
-        int indexFornecedor = 0;
-        int indexContrato = 0;
-        float menorValor = contratosMatriz.get(0).get(0).getValor();
+        int fornecedor = 0;
+        int contrato = 0;
+        float valor = contratosMatriz.get(0).get(0).getValor();
 
         for (int i = 0; i < contratosMatriz.size(); i++) {
-
             for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
-                if (menorValor > contratosMatriz.get(i).get(j).getValor()) {
-                    menorValor = contratosMatriz.get(i).get(j).getValor();
-                    indexFornecedor = i;
-                    indexContrato = j;
+                if (valor > contratosMatriz.get(i).get(j).getValor()) {
+                    valor = contratosMatriz.get(i).get(j).getValor();
+                    fornecedor = i;
+                    contrato = j;
                 }
             }
         }
-
-        return this.contratosMatriz.get(indexFornecedor).get(indexContrato);
+        return this.contratosMatriz.get(fornecedor).get(contrato);
     }
 
-    public Contrato menorValorByMes(int mes) {
-        int indexFornecedor = 0;
-        int indexContrato = 0;
-        float menorValor = 0;
+    public Contrato menorMes(int mes) {
+        int fornecedor = 0;
+        int contrato = 0;
+        float valor = 0;
         boolean primeiro = true;
 
         for (int i = 0; i < contratosMatriz.size(); i++) {
             for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
                 if (mes == contratosMatriz.get(i).get(j).getMesFinal() && contratosMatriz.get(i).get(j).getMesInicio() == 1) {
                     if(primeiro) {
-                        menorValor = contratosMatriz.get(i).get(j).getValor();
+                        valor = contratosMatriz.get(i).get(j).getValor();
                         primeiro = false;
                     } else {
-                        if (menorValor > contratosMatriz.get(i).get(j).getValor()) {
-                            menorValor = contratosMatriz.get(i).get(j).getValor();
-                            indexFornecedor = i;
-                            indexContrato = j;
+                        if (valor > contratosMatriz.get(i).get(j).getValor()) {
+                            valor = contratosMatriz.get(i).get(j).getValor();
+                            fornecedor = i;
+                            contrato = j;
                         }
                     }
                 }
             }
         }
 
-        return this.contratosMatriz.get(indexFornecedor).get(indexContrato);
+        return this.contratosMatriz.get(fornecedor).get(contrato);
+    }
+
+    public Contrato menorGeral(int mes) {
+        int fornecedor = 0;
+        int contrato = 0;
+        int index = 0;
+        boolean primerio = true;
+        float valor = 0;
+        float[][] valorMatriz = new float[contratosMatriz.size()][contratosMatriz.size()];
+
+        for (int i = 0; i < contratosMatriz.size(); i++) {
+            for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
+
+                if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {
+                    index = contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio();
+                    valorMatriz[i][index] = valorMatriz[i][index] + contratosMatriz.get(i).get(j).getValor();
+                    if(!primerio) {
+                        if (contratosMatriz.get(i).get(j).getMesFinal() == mes && 1 == contratosMatriz.get(i).get(j).getMesInicio()) {
+                            if (valor > valorMatriz[i][index]) {
+                                valor = valorMatriz[i][index];
+                                fornecedor = i;
+                                contrato = j;
+                            }
+                        }
+                    }else {
+                        valor = valorMatriz[i][index];
+                        primerio = false;
+                    }
+                }
+
+            }
+        }
+        return this.contratosMatriz.get(fornecedor).get(contrato);
     }
 }
