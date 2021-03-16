@@ -76,32 +76,64 @@ public class ContratoFunc {
         int fornecedor = 0;
         int contrato = 0;
         int index = 0;
-        boolean primerio = true;
+        int cont = 1;
         float valor = 0;
-        float[][] valorMatriz = new float[contratosMatriz.size()][contratosMatriz.size()];
+        float[][] valorMatriz = new float[contratosMatriz.size()][mes + 1];
 
         for (int i = 0; i < contratosMatriz.size(); i++) {
             for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
-
+                //QuickSort
                 if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {
                     index = contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio();
                     valorMatriz[i][index] = valorMatriz[i][index] + contratosMatriz.get(i).get(j).getValor();
-                    if(!primerio) {
-                        if (contratosMatriz.get(i).get(j).getMesFinal() == mes && 1 == contratosMatriz.get(i).get(j).getMesInicio()) {
-                            if (valor > valorMatriz[i][index]) {
-                                valor = valorMatriz[i][index];
-                                fornecedor = i;
-                                contrato = j;
-                            }
+
+                    if(contratosMatriz.get(i).get(j).getMesFinal() == mes) {
+
+                        if(contratosMatriz.get(i).get(j).getMesFinal() == contratosMatriz.get(i).get(j).getMesInicio() && i == 0) {
+                            valor = valorMatriz[i][index];
+                        } else if (valor > valorMatriz[i][index]) {
+                            valor = valorMatriz[i][index];
+                            fornecedor = i;
+                            contrato = j;
+                            System.out.print(contratosMatriz.get(i).get(j).getMesInicio() + " ");
+                            System.out.print(contratosMatriz.get(i).get(j).getMesFinal() + " ");
+                            System.out.println(contratosMatriz.get(i).get(j).getValor());
                         }
-                    }else {
-                        valor = valorMatriz[i][index];
-                        primerio = false;
                     }
                 }
 
             }
         }
         return this.contratosMatriz.get(fornecedor).get(contrato);
+    }
+
+    private static int[] quickSort(int[] vetor, int inicio, int fim) {
+        if (inicio < fim) {
+            int posicaoPivo = separar(vetor, inicio, fim);
+            quickSort(vetor, inicio, posicaoPivo - 1);
+            quickSort(vetor, posicaoPivo + 1, fim);
+        }
+        return vetor;
+    }
+
+    private static int separar(int[] vetor, int inicio, int fim) {
+        int pivo = vetor[inicio];
+        int i = inicio + 1, f = fim;
+        while (i <= f) {
+            if (vetor[i] <= pivo)
+                i++;
+            else if (pivo < vetor[f])
+                f--;
+            else {
+                int troca = vetor[i];
+                vetor[i] = vetor[f];
+                vetor[f] = troca;
+                i++;
+                f--;
+            }
+        }
+        vetor[inicio] = vetor[f];
+        vetor[f] = pivo;
+        return f;
     }
 }

@@ -48,6 +48,6 @@ public class Main {
         }
 
         ContratoFunc f = new ContratoFunc( meses, cont,contratosMatriz);
-        System.out.println(f.menorGeral(2));
+        System.out.println(f.menorGeral(4));
     }
 }
