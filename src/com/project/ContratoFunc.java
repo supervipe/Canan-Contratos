@@ -76,17 +76,25 @@ public class ContratoFunc {
         int fornecedor = 0;
         int contrato = 0;
         int index = 0;
-        int cont = 1;
+        int cont = 0;
         float valor = 0;
         float[][] valorMatriz = new float[contratosMatriz.size()][mes + 1];
+        float[] valores = new float[72600];
 
         for (int i = 0; i < contratosMatriz.size(); i++) {
             for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
                 //QuickSort
+                //Contrato[] array = contratosMatriz.get(i).toArray(new Contrato[contratosMatriz.get(i).size()]);
+                //quickSort(array,0,contratosMatriz.size());
+
                 if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {
                     index = contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio();
                     valorMatriz[i][index] = valorMatriz[i][index] + contratosMatriz.get(i).get(j).getValor();
-
+                    valores[cont] = contratosMatriz.get(i).get(j).getValor()/(index +1);
+                    if(contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio() == 76){
+                        System.out.println(valores[cont] +" "+ contratosMatriz.get(i).get(j).getValor());
+                    }
+                    cont++;
                     if(contratosMatriz.get(i).get(j).getMesFinal() == mes) {
 
                         if(contratosMatriz.get(i).get(j).getMesFinal() == contratosMatriz.get(i).get(j).getMesInicio() && i == 0) {
@@ -103,11 +111,14 @@ public class ContratoFunc {
                 }
 
             }
+
         }
+        quickSort(valores,0,72599);
+        System.out.println(valores[0] +" "+ valores[1] +" "+ valores[2] + " " + valores[3]);
         return this.contratosMatriz.get(fornecedor).get(contrato);
     }
 
-    private static int[] quickSort(int[] vetor, int inicio, int fim) {
+    private static float[] quickSort(float[] vetor, int inicio, int fim) {
         if (inicio < fim) {
             int posicaoPivo = separar(vetor, inicio, fim);
             quickSort(vetor, inicio, posicaoPivo - 1);
@@ -116,8 +127,8 @@ public class ContratoFunc {
         return vetor;
     }
 
-    private static int separar(int[] vetor, int inicio, int fim) {
-        int pivo = vetor[inicio];
+    private static int separar(float[] vetor, int inicio, int fim) {
+        float pivo = vetor[inicio];
         int i = inicio + 1, f = fim;
         while (i <= f) {
             if (vetor[i] <= pivo)
@@ -125,7 +136,7 @@ public class ContratoFunc {
             else if (pivo < vetor[f])
                 f--;
             else {
-                int troca = vetor[i];
+                float troca = vetor[i];
                 vetor[i] = vetor[f];
                 vetor[f] = troca;
                 i++;
