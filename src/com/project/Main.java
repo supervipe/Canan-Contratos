@@ -48,9 +48,6 @@ public class Main {
         }
 
         ContratoFunc f = new ContratoFunc( meses, cont,contratosMatriz);
-        System.out.println(f.menorGeral(120));
-
-        //handleContrato = new HandleContrato(fornecedores, meses, fornecedoresCount);
 
         while (true) {
 

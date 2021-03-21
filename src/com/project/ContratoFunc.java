@@ -1,6 +1,5 @@
-package com.project;
-
-import java.util.ArrayList;
+package com.project;                                        //n = meses
+import java.util.ArrayList;                                 //m = fornecesores
 
 public class ContratoFunc {
 
@@ -20,10 +19,10 @@ public class ContratoFunc {
         ArrayList<Contrato> contratos = contratosMatriz.get(index - 1);
         float valor = contratos.get(0).getValor();
 
-        for (int i = 0; i < contratos.size(); i++) {
-            if (valor > contratos.get(i).getValor()) {
-                valor = contratos.get(i).getValor();
-                fornecedor = i;
+        for (int i = 0; i < contratos.size(); i++) {                                        //m = + 1
+            if (valor > contratos.get(i).getValor()) {                                      //m
+                valor = contratos.get(i).getValor();                                        //O(m) - "A complexidade não é mais que Linear"
+                fornecedor = i;                                                             //O melhor caso = 0 / O pior caso = m
             }
         }
         return contratos.get(fornecedor);
@@ -34,10 +33,10 @@ public class ContratoFunc {
         int contrato = 0;
         float valor = contratosMatriz.get(0).get(0).getValor();
 
-        for (int i = 0; i < contratosMatriz.size(); i++) {
-            for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
-                if (valor > contratosMatriz.get(i).get(j).getValor()) {
-                    valor = contratosMatriz.get(i).get(j).getValor();
+        for (int i = 0; i < contratosMatriz.size(); i++) {                                  //m + 1
+            for (int j = 0; j < contratosMatriz.get(i).size(); j++) {                       //m(n+1)
+                if (valor > contratosMatriz.get(i).get(j).getValor()) {                     //m^n
+                    valor = contratosMatriz.get(i).get(j).getValor();                       //O melhor caso = 0 / O pior caso = m^n
                     fornecedor = i;
                     contrato = j;
                 }
@@ -52,10 +51,10 @@ public class ContratoFunc {
         float valor = 0;
         boolean primeiro = true;
 
-        for (int i = 0; i < contratosMatriz.size(); i++) {
-            for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
-                if (mes == contratosMatriz.get(i).get(j).getMesFinal() && contratosMatriz.get(i).get(j).getMesInicio() == 1) {
-                    if(primeiro) {
+        for (int i = 0; i < contratosMatriz.size(); i++) {                                                                        //m + 1
+            for (int j = 0; j < contratosMatriz.get(i).size(); j++) {                                                             //m(n +1)
+                if (mes == contratosMatriz.get(i).get(j).getMesFinal() && contratosMatriz.get(i).get(j).getMesInicio() == 1) {    //m^n
+                    if(primeiro) {                                                                                                //O melhor caso = 1 / O pior caso = m^n
                         valor = contratosMatriz.get(i).get(j).getValor();
                         primeiro = false;
                     } else {
@@ -76,25 +75,28 @@ public class ContratoFunc {
         int fornecedor = 0;
         int contrato = 0;
         int index = 0;
-        int cont = 0;
+        //int cont = 1;
         float valor = 0;
         float[][] valorMatriz = new float[contratosMatriz.size()][mes + 1];
-        float[] valores = new float[72600];
 
-        for (int i = 0; i < contratosMatriz.size(); i++) {
-            for (int j = 0; j < contratosMatriz.get(i).size(); j++) {
+        for (int i = 0; i < contratosMatriz.size(); i++) {                                 //m + 1
+            for (int j = 0; j < contratosMatriz.get(i).size(); j++) {                      //m(n +1)
                 //QuickSort
-                //Contrato[] array = contratosMatriz.get(i).toArray(new Contrato[contratosMatriz.get(i).size()]);
-                //quickSort(array,0,contratosMatriz.size());
+                /*
+                    Contrato[] array = contratosMatriz.get(i).toArray(new Contrato[contratosMatriz.get(i).size()]);
+                    quickSort(array,0,contratosMatriz.size());
 
-                if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {
+
+                    if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {
                     index = contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio();
                     valorMatriz[i][index] = valorMatriz[i][index] + contratosMatriz.get(i).get(j).getValor();
                     valores[cont] = contratosMatriz.get(i).get(j).getValor()/(index +1);
-                    if(contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio() == 76){
-                        System.out.println(valores[cont] +" "+ contratosMatriz.get(i).get(j).getValor());
-                    }
                     cont++;
+                 */
+                if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {                  //m^n
+                    index = contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio();       //O melhor caso = 1 / O pior caso = m^n
+                    valorMatriz[i][index] = valorMatriz[i][index] + contratosMatriz.get(i).get(j).getValor();
+
                     if(contratosMatriz.get(i).get(j).getMesFinal() == mes) {
 
                         if(contratosMatriz.get(i).get(j).getMesFinal() == contratosMatriz.get(i).get(j).getMesInicio() && i == 0) {
@@ -103,21 +105,17 @@ public class ContratoFunc {
                             valor = valorMatriz[i][index];
                             fornecedor = i;
                             contrato = j;
-                            System.out.print(contratosMatriz.get(i).get(j).getMesInicio() + " ");
-                            System.out.print(contratosMatriz.get(i).get(j).getMesFinal() + " ");
-                            System.out.println(contratosMatriz.get(i).get(j).getValor());
                         }
                     }
                 }
 
             }
-
         }
-        quickSort(valores,0,72599);
-        System.out.println(valores[0] +" "+ valores[1] +" "+ valores[2] + " " + valores[3]);
         return this.contratosMatriz.get(fornecedor).get(contrato);
     }
 
+    //F(n^4 * m²) -> Pior caso
+    //F(n² * m log(n² * m)) -> Melhor caso
     private static float[] quickSort(float[] vetor, int inicio, int fim) {
         if (inicio < fim) {
             int posicaoPivo = separar(vetor, inicio, fim);
