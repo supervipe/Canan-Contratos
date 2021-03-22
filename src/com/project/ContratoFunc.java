@@ -19,7 +19,7 @@ public class ContratoFunc {
         ArrayList<Contrato> contratos = contratosMatriz.get(index - 1);
         float valor = contratos.get(0).getValor();
 
-        for (int i = 0; i < contratos.size(); i++) {                                        //m = + 1
+        for (int i = 0; i < contratos.size(); i++) {                                        //m + 1
             if (valor > contratos.get(i).getValor()) {                                      //m
                 valor = contratos.get(i).getValor();                                        //O(m) - "A complexidade não é mais que Linear"
                 fornecedor = i;                                                             //O melhor caso = 0 / O pior caso = m
@@ -35,8 +35,8 @@ public class ContratoFunc {
 
         for (int i = 0; i < contratosMatriz.size(); i++) {                                  //m + 1
             for (int j = 0; j < contratosMatriz.get(i).size(); j++) {                       //m(n+1)
-                if (valor > contratosMatriz.get(i).get(j).getValor()) {                     //m^n
-                    valor = contratosMatriz.get(i).get(j).getValor();                       //O melhor caso = 0 / O pior caso = m^n
+                if (valor > contratosMatriz.get(i).get(j).getValor()) {                     //m*n
+                    valor = contratosMatriz.get(i).get(j).getValor();                       //O melhor caso = 0 / O pior caso = m*n
                     fornecedor = i;
                     contrato = j;
                 }
@@ -53,8 +53,8 @@ public class ContratoFunc {
 
         for (int i = 0; i < contratosMatriz.size(); i++) {                                                                        //m + 1
             for (int j = 0; j < contratosMatriz.get(i).size(); j++) {                                                             //m(n +1)
-                if (mes == contratosMatriz.get(i).get(j).getMesFinal() && contratosMatriz.get(i).get(j).getMesInicio() == 1) {    //m^n
-                    if(primeiro) {                                                                                                //O melhor caso = 1 / O pior caso = m^n
+                if (mes == contratosMatriz.get(i).get(j).getMesFinal() && contratosMatriz.get(i).get(j).getMesInicio() == 1) {    //m*n
+                    if(primeiro) {                                                                                                //O melhor caso = 1 / O pior caso = m*n
                         valor = contratosMatriz.get(i).get(j).getValor();
                         primeiro = false;
                     } else {
@@ -93,8 +93,8 @@ public class ContratoFunc {
                     valores[cont] = contratosMatriz.get(i).get(j).getValor()/(index +1);
                     cont++;
                  */
-                if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {                  //m^n
-                    index = contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio();       //O melhor caso = 1 / O pior caso = m^n
+                if (mes >= contratosMatriz.get(i).get(j).getMesFinal()) {                  //m*n
+                    index = contratosMatriz.get(i).get(j).getMesFinal() - contratosMatriz.get(i).get(j).getMesInicio();       //O melhor caso = 1 / O pior caso = m*n
                     valorMatriz[i][index] = valorMatriz[i][index] + contratosMatriz.get(i).get(j).getValor();
 
                     if(contratosMatriz.get(i).get(j).getMesFinal() == mes) {

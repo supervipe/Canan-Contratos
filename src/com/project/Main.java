@@ -14,12 +14,12 @@ public class Main {
         boolean primeiro = true;
         Scanner prompt = new Scanner(System.in);
         BufferedReader objReader = null;
-        try {
-            String linha;
+        try {                                                                        //m = fornecesores
+            String linha;                                                            //n = meses
 
-            objReader = new BufferedReader(new FileReader("entrada_120_10.txt"));
+            objReader = new BufferedReader(new FileReader("entrada_120_100.txt"));
 
-            while ((linha = objReader.readLine()) != null) {
+            while ((linha = objReader.readLine()) != null) {                        //"A complexidade não é mais que Linear" - Melhor caso = 1 / Pior Caso = m^n + 1
                 if(primeiro){
                     meses = Integer.parseInt(linha.split(" ")[0]);
                     cont = Integer.parseInt(linha.split(" ")[1]);
